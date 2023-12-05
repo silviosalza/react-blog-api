@@ -31,6 +31,11 @@ function App() {
     setFormData(initialFormData);
   }
 
+  function deleteArticle(idToRemove) {
+    const newArticles = [...articles];
+    setArticles(newArticles.filter((article) => article.id !== idToRemove));
+  }
+
   return (
     <>
       <main className="py-5 ">
@@ -75,7 +80,10 @@ function App() {
                 <h5 className="font-bold">Titolo:</h5> {article.title} <br />
                 <h5 className="font-bold">Contenuto:</h5> {article.content}
                 <br />
-                <button className="font-bold border-2  hover:bg-red-700  hover:text-white border-red-700 ">
+                <button
+                  className="font-bold border-2  hover:bg-red-700  hover:text-white border-red-700 "
+                  onClick={() => deleteArticle(article.id)}
+                >
                   Elimina
                 </button>
                 <hr />
