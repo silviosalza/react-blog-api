@@ -36,6 +36,19 @@ function App() {
     setArticles(newArticles.filter((article) => article.id !== idToRemove));
   }
 
+  function editArticle(idToEdit) {
+    const newArticles = [...articles];
+    const articleToEdit = newArticles.filter(
+      (article) => article.id === idToEdit
+    );
+    console.log(articleToEdit);
+    // const newinitialFormData = {
+    //   title: articleToEdit.title,
+    //   content: articleToEdit.content,
+    // };
+    setFormData({ title: articleToEdit.title, content: articleToEdit.content });
+  }
+
   return (
     <>
       <main className="py-5 ">
@@ -85,6 +98,12 @@ function App() {
                   onClick={() => deleteArticle(article.id)}
                 >
                   Elimina
+                </button>
+                <button
+                  className="font-bold border-2  hover:bg-yellow-400  hover:text-white border-yellow-400 "
+                  onClick={() => editArticle(article.id)}
+                >
+                  Modifica
                 </button>
                 <hr />
               </li>
