@@ -1,14 +1,16 @@
 import { useState } from "react";
 
 function App() {
+  const initialFormData = {
+    title: "",
+    content: "",
+  };
+
   const [articles, setArticles] = useState([]);
 
   //setto stato iniziale del mio input
   // const [title, setTitle] = useState("");
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   function updateFormData(newValue, fieldName) {
     //clono oggetto usando spred, per eliminare qualsiasi riferimento allo stato attuale
@@ -24,6 +26,9 @@ function App() {
 
     //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
     setArticles([...articles, formData]);
+
+    //resetto form
+    setFormData(initialFormData);
   }
 
   return (
@@ -57,7 +62,7 @@ function App() {
             ></textarea>
             <button
               type="submit"
-              className="bg-green-300 hover:bg-green-400 rounded border-2 border-black"
+              className="bg-green-300 hover:bg-green-400 rounded border-2 border-black font-bold"
             >
               Crea
             </button>
@@ -69,6 +74,10 @@ function App() {
               <li key={article.title}>
                 <h5 className="font-bold">Titolo:</h5> {article.title} <br />
                 <h5 className="font-bold">Contenuto:</h5> {article.content}
+                <br />
+                <button className="font-bold border-2  hover:bg-red-700  hover:text-white border-red-700 ">
+                  Elimina
+                </button>
                 <hr />
               </li>
             ))}
