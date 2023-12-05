@@ -67,8 +67,9 @@ function App() {
           <ul>
             {articles.map((article) => (
               <li key={article.title}>
-                Titolo: {article.title} <br />
-                Contenuto: {article.content}
+                <h5 className="font-bold">Titolo:</h5> {article.title} <br />
+                <h5 className="font-bold">Contenuto:</h5> {article.content}
+                <hr />
               </li>
             ))}
           </ul>
