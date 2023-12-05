@@ -21,11 +21,11 @@ function App() {
     setFormData(newFormData);
   }
 
-  function handleFormData(e) {
+  function handleFormSubmit(e) {
     e.preventDefault(); //evita refresh pagina
 
     //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
-    setArticles([...articles, formData]);
+    setArticles([...articles, { ...formData, id: crypto.randomUUID() }]);
 
     //resetto form
     setFormData(initialFormData);
@@ -39,7 +39,7 @@ function App() {
           <form
             action=""
             className="flex flex-col gap-2 w-1/2"
-            onSubmit={handleFormData}
+            onSubmit={handleFormSubmit}
           >
             <label htmlFor="article_title"></label>
             <input
@@ -71,7 +71,7 @@ function App() {
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
             {articles.map((article) => (
-              <li key={article.title}>
+              <li key={article.id}>
                 <h5 className="font-bold">Titolo:</h5> {article.title} <br />
                 <h5 className="font-bold">Contenuto:</h5> {article.content}
                 <br />
