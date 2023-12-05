@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 function App() {
+  const [articles, setArticles] = useState([]);
+
   //setto stato iniziale del mio input
   // const [title, setTitle] = useState("");
   const [formData, setFormData] = useState({
@@ -13,9 +15,15 @@ function App() {
     const newFormData = { ...formData };
     //aggiorno la chiave fieldName con il valore newValue
     newFormData[fieldName] = newValue;
-
     //passo oggetto modificato
     setFormData(newFormData);
+  }
+
+  function handleFormData(e) {
+    e.preventDefault(); //evita refresh pagina
+
+    //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
+    setArticles([...articles, formData]);
   }
 
   return (
@@ -23,7 +31,11 @@ function App() {
       <main className="py-5 ">
         <div className="container mx-auto">
           <h1 className="font-bold">Articolo</h1>
-          <form action="" className="flex flex-col gap-2 w-1/2">
+          <form
+            action=""
+            className="flex flex-col gap-2 w-1/2"
+            onSubmit={handleFormData}
+          >
             <label htmlFor="article_title"></label>
             <input
               className="rounded border-2 border-black"
@@ -43,10 +55,23 @@ function App() {
               value={formData.content}
               onChange={(e) => updateFormData(e.target.value, "content")}
             ></textarea>
-            <button className="bg-green-300 hover:bg-green-400 rounded border-2 border-black">
+            <button
+              type="submit"
+              className="bg-green-300 hover:bg-green-400 rounded border-2 border-black"
+            >
               Crea
             </button>
           </form>
+        </div>
+        <div className="my-5 container mx-auto border-2 border-black">
+          <ul>
+            {articles.map((article) => (
+              <li key={article.title}>
+                Titolo: {article.title} <br />
+                Contenuto: {article.content}
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     </>
