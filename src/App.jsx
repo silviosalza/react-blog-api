@@ -102,7 +102,7 @@ function App() {
             </button>
           </form>
           <button
-            type="submit"
+            type="button"
             className="my-1 w-1/2 bg-red-300 hover:bg-red-400 rounded border-2 border-black font-bold"
             onClick={handleReset}
           >
