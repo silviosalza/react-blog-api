@@ -143,6 +143,25 @@ function App() {
               <option value="Letteratura">Letteratura</option>
             </select>
 
+            <div className="flex gap-5">
+              <label className="block font-bold">
+                <input className="mr-3" type="checkbox" value="1" />
+                Tag 1
+              </label>
+              <label className="block font-bold">
+                <input className="mr-3" type="checkbox" value="2" />
+                Tag 2
+              </label>
+              <label className="block font-bold">
+                <input className="mr-3" type="checkbox" value="3" />
+                Tag 3
+              </label>
+              <label className="block font-bold">
+                <input className="mr-3" type="checkbox" value="4" />
+                Tag 4
+              </label>
+            </div>
+
             <label className="font-bold" htmlFor="published">
               Pubblicato
             </label>
