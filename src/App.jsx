@@ -21,6 +21,10 @@ function App() {
     //passo oggetto modificato
     setFormData(newFormData);
   }
+  function handleReset(e) {
+    setFormData(initialFormData);
+    setEditingId("");
+  }
 
   function handleFormSubmit(e) {
     e.preventDefault(); //evita refresh pagina
@@ -97,6 +101,13 @@ function App() {
               {editingId ? "Salva" : "Crea"}
             </button>
           </form>
+          <button
+            type="submit"
+            className="my-1 w-1/2 bg-red-300 hover:bg-red-400 rounded border-2 border-black font-bold"
+            onClick={handleReset}
+          >
+            Annulla
+          </button>
         </div>
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
@@ -106,8 +117,9 @@ function App() {
                 <h5 className="font-bold">Contenuto:</h5> {article.content}
                 <br />
                 <button
-                  className="font-bold border-2  hover:bg-red-700  hover:text-white border-red-700 "
+                  className="disabled font-bold border-2 hover:bg-red-700  hover:text-white border-red-700 disabled:border-black disabled:bg-slate-400"
                   onClick={() => deleteArticle(article.id)}
+                  disabled={!!editingId}
                 >
                   Elimina
                 </button>
