@@ -145,7 +145,22 @@ function App() {
                 className="flex-wrap mb-4 p-4 border border-gray-300 flex items-center"
               >
                 <div className="flex flex-col">
-                  <h5 className="font-bold mb-2">Titolo: {article.title}</h5>
+                  <h5 className="font-bold mb-2">
+                    Titolo: {article.title} -{" "}
+                    <span className={article.published ? "" : "hidden"}>
+                      Pubblicato{" "}
+                    </span>
+                    <span className={article.published ? "hidden" : ""}>
+                      Non Pubblicato{" "}
+                    </span>
+                    <span
+                      className={`text-xl ${
+                        article.published ? "text-green-500" : "text-red-500"
+                      }`}
+                    >
+                      &#x2022;
+                    </span>
+                  </h5>
                   <img className="w-40 mb-2" src={article.img} alt="" />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
                   <span className="max-w-full text-center">
