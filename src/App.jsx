@@ -6,6 +6,7 @@ function App() {
     content: "",
     img: "",
     published: false,
+    category: "",
   };
 
   const [articles, setArticles] = useState([]);
@@ -15,14 +16,14 @@ function App() {
   const [formData, setFormData] = useState(initialFormData);
   const [editingId, setEditingId] = useState("");
 
-  function updateFormData(newValue, fieldName) {
-    //clono oggetto usando spred, per eliminare qualsiasi riferimento allo stato attuale
-    const newFormData = { ...formData };
-    //aggiorno la chiave fieldName con il valore newValue
-    newFormData[fieldName] = newValue;
-    //passo oggetto modificato
-    setFormData(newFormData);
-  }
+  // function updateFormData(newValue, fieldName) {
+  //   //clono oggetto usando spred, per eliminare qualsiasi riferimento allo stato attuale
+  //   const newFormData = { ...formData };
+  //   //aggiorno la chiave fieldName con il valore newValue
+  //   newFormData[fieldName] = newValue;
+  //   //passo oggetto modificato
+  //   setFormData(newFormData);
+  // }
   function handleReset() {
     setFormData(initialFormData);
     setEditingId("");
@@ -64,9 +65,20 @@ function App() {
       title: articleToEdit.title,
       content: articleToEdit.content,
       img: articleToEdit.img,
+      category: articleToEdit.category,
     });
   }
-  function handleCheckbox(e) {}
+  function getCategoryText(value) {
+    if (value === 1) {
+      return "Pittura";
+    } else if (value === 2) {
+      return "Musica";
+    } else if (value === 3) {
+      return "Cinema";
+    } else if (value === 2) {
+      return "Letteratura";
+    }
+  }
 
   function handleField(e) {
     const valueField =
@@ -115,7 +127,25 @@ function App() {
               value={formData.img}
               onChange={handleField}
             />
-            <label htmlFor="published">Pubblicato</label>
+            <label className="font-bold" htmlFor="category">
+              Categoria
+            </label>
+            <select
+              className="rounded border-2 border-black"
+              name="category"
+              value={formData.category}
+              onChange={handleField}
+            >
+              <option value=""></option>
+              <option value="Pittura">Pittura</option>
+              <option value="Musica">Musica</option>
+              <option value="Cinema">Cinema</option>
+              <option value="Letteratura">Letteratura</option>
+            </select>
+
+            <label className="font-bold" htmlFor="published">
+              Pubblicato
+            </label>
             <input
               name="published"
               type="checkbox"
@@ -137,6 +167,7 @@ function App() {
             Annulla
           </button>
         </div>
+        {/*------------------------------------------------------------------- */}
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
             {articles.map((article) => (
@@ -161,6 +192,7 @@ function App() {
                       &#x2022;
                     </span>
                   </h5>
+                  {<h5 className="font-bold">Categoria: {article.category}</h5>}
                   <img className="w-40 mb-2" src={article.img} alt="" />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
                   <span className="max-w-full text-center">
