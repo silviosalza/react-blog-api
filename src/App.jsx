@@ -4,6 +4,8 @@ function App() {
   const initialFormData = {
     title: "",
     content: "",
+    img: "",
+    published: false,
   };
 
   const [articles, setArticles] = useState([]);
@@ -21,11 +23,10 @@ function App() {
     //passo oggetto modificato
     setFormData(newFormData);
   }
-  function handleReset(e) {
+  function handleReset() {
     setFormData(initialFormData);
     setEditingId("");
   }
-
   function handleFormSubmit(e) {
     e.preventDefault(); //evita refresh pagina
     const newArticles = [...articles];
@@ -39,6 +40,7 @@ function App() {
       newArticles[articleToEditIndex] = {
         ...articles[articleToEditIndex],
         ...formData,
+        updatedAt: new Date(),
       };
       setArticles(newArticles);
       setEditingId("");
@@ -47,12 +49,10 @@ function App() {
     //resetto form
     setFormData(initialFormData);
   }
-
   function deleteArticle(idToRemove) {
     const newArticles = [...articles];
     setArticles(newArticles.filter((article) => article.id !== idToRemove));
   }
-
   function editArticle(idToEdit) {
     const newArticles = [...articles];
     const articleToEdit = newArticles.find(
@@ -60,7 +60,19 @@ function App() {
     );
     console.log(articleToEdit);
     setEditingId(idToEdit);
-    setFormData({ title: articleToEdit.title, content: articleToEdit.content });
+    setFormData({
+      title: articleToEdit.title,
+      content: articleToEdit.content,
+      img: articleToEdit.img,
+    });
+  }
+  function handleCheckbox(e) {}
+
+  function handleField(e) {
+    const valueField =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+
+    setFormData((current) => ({ ...current, [e.target.name]: valueField }));
   }
 
   return (
@@ -78,22 +90,38 @@ function App() {
             <label htmlFor="article_title"></label>
             <input
               className="rounded border-2 border-black"
-              type="textarea"
+              type="text"
               name="title"
               placeholder="Inserisci il titolo dell'articolo"
               value={formData.title}
-              onChange={(e) => updateFormData(e.target.value, "title")}
+              onChange={handleField}
             />
             <label htmlFor="article_content"></label>
             <textarea
               rows="5"
-              className="rounded border-2 border-black"
+              className="rounded border-2 border-black break-words"
               type="textarea"
               name="content"
               placeholder="Inserisci il contenuto"
               value={formData.content}
-              onChange={(e) => updateFormData(e.target.value, "content")}
+              onChange={handleField}
             ></textarea>
+            <label htmlFor="article_img"></label>
+            <input
+              className="rounded border-2 border-black"
+              type="text"
+              name="img"
+              placeholder="Inserisci URL dell'immagine copertina"
+              value={formData.img}
+              onChange={handleField}
+            />
+            <label htmlFor="published">Pubblicato</label>
+            <input
+              name="published"
+              type="checkbox"
+              value={formData.published}
+              onChange={handleField}
+            />
             <button
               type="submit"
               className="bg-green-300 hover:bg-green-400 rounded border-2 border-black font-bold"
@@ -112,24 +140,34 @@ function App() {
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
             {articles.map((article) => (
-              <li key={article.id}>
-                <h5 className="font-bold">Titolo:</h5> {article.title} <br />
-                <h5 className="font-bold">Contenuto:</h5> {article.content}
-                <br />
-                <button
-                  className="disabled font-bold border-2 hover:bg-red-700  hover:text-white border-red-700 disabled:border-black disabled:bg-slate-400"
-                  onClick={() => deleteArticle(article.id)}
-                  disabled={!!editingId}
-                >
-                  Elimina
-                </button>
-                <button
-                  className="mx-1 font-bold border-2  hover:bg-yellow-400  hover:text-white border-yellow-400 "
-                  onClick={() => editArticle(article.id)}
-                >
-                  Modifica
-                </button>
-                <hr />
+              <li
+                key={article.id}
+                className="flex-wrap mb-4 p-4 border border-gray-300 flex items-center"
+              >
+                <div className="flex flex-col">
+                  <h5 className="font-bold mb-2">Titolo: {article.title}</h5>
+                  <img className="w-40 mb-2" src={article.img} alt="" />
+                  <h5 className="font-bold mb-2">Contenuto:</h5>
+                  <span className="max-w-full text-center">
+                    {article.content}
+                  </span>
+                </div>
+                <div className="mt-4 flex flex-col items-end">
+                  <button
+                    className="w-20 disabled font-bold border-2 hover:bg-red-700 hover:text-white border-red-700 disabled:border-black disabled:bg-slate-400 mb-2"
+                    onClick={() => deleteArticle(article.id)}
+                    disabled={!!editingId}
+                  >
+                    Elimina
+                  </button>
+                  <button
+                    className="w-20 font-bold border-2 hover:bg-yellow-400 hover:text-white border-yellow-400"
+                    onClick={() => editArticle(article.id)}
+                  >
+                    Modifica
+                  </button>
+                </div>
+                <hr className="" />
               </li>
             ))}
           </ul>
