@@ -124,7 +124,7 @@ function App() {
                   Elimina
                 </button>
                 <button
-                  className="font-bold border-2  hover:bg-yellow-400  hover:text-white border-yellow-400 "
+                  className="mx-1 font-bold border-2  hover:bg-yellow-400  hover:text-white border-yellow-400 "
                   onClick={() => editArticle(article.id)}
                 >
                   Modifica
