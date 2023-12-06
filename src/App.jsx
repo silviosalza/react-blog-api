@@ -11,6 +11,7 @@ function App() {
   //setto stato iniziale del mio input
   // const [title, setTitle] = useState("");
   const [formData, setFormData] = useState(initialFormData);
+  const [editingId, setEditingId] = useState("");
 
   function updateFormData(newValue, fieldName) {
     //clono oggetto usando spred, per eliminare qualsiasi riferimento allo stato attuale
@@ -23,9 +24,21 @@ function App() {
 
   function handleFormSubmit(e) {
     e.preventDefault(); //evita refresh pagina
-
-    //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
-    setArticles([...articles, { ...formData, id: crypto.randomUUID() }]);
+    const newArticles = [...articles];
+    if (!editingId) {
+      //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
+      setArticles([...articles, { ...formData, id: crypto.randomUUID() }]);
+    } else {
+      const articleToEditIndex = newArticles.findIndex(
+        (article) => article.id === editingId
+      );
+      newArticles[articleToEditIndex] = {
+        ...articles[articleToEditIndex],
+        ...formData,
+      };
+      setArticles(newArticles);
+      setEditingId("");
+    }
 
     //resetto form
     setFormData(initialFormData);
@@ -38,14 +51,11 @@ function App() {
 
   function editArticle(idToEdit) {
     const newArticles = [...articles];
-    const articleToEdit = newArticles.filter(
+    const articleToEdit = newArticles.find(
       (article) => article.id === idToEdit
     );
     console.log(articleToEdit);
-    // const newinitialFormData = {
-    //   title: articleToEdit.title,
-    //   content: articleToEdit.content,
-    // };
+    setEditingId(idToEdit);
     setFormData({ title: articleToEdit.title, content: articleToEdit.content });
   }
 
@@ -53,7 +63,9 @@ function App() {
     <>
       <main className="py-5 ">
         <div className="container mx-auto">
-          <h1 className="font-bold">Articolo</h1>
+          <h1 className="font-bold">
+            {editingId ? "Modifica Articolo" : "Crea Articolo"}
+          </h1>
           <form
             action=""
             className="flex flex-col gap-2 w-1/2"
@@ -82,7 +94,7 @@ function App() {
               type="submit"
               className="bg-green-300 hover:bg-green-400 rounded border-2 border-black font-bold"
             >
-              Crea
+              {editingId ? "Salva" : "Crea"}
             </button>
           </form>
         </div>
