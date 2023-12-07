@@ -16,6 +16,8 @@ function App() {
   const [editingId, setEditingId] = useState("");
   //variabile che popolo con la chiamata API
   const [postsList, setPostsList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [tagsList, setTagsList] = useState([]);
   let initiated = false;
 
   // function updateFormData(newValue, fieldName) {
@@ -79,8 +81,14 @@ function App() {
 
   //gestisco chiamata API
   async function fetchData() {
-    const data = await (await fetch("http://localhost:3000/posts")).json();
-    setPostsList(data);
+    const postsData = await (await fetch("http://localhost:3000/posts")).json();
+    setPostsList(postsData);
+    const categoryData = await (
+      await fetch("http://localhost:3000/category")
+    ).json();
+    setCategoryList(categoryData);
+    const tagsData = await (await fetch("http://localhost:3000/tags")).json();
+    setTagsList(categoryData);
   }
   //all'avvio dell'applicazione fetchiamo i dati
   useEffect(() => {
@@ -140,29 +148,20 @@ function App() {
               onChange={handleField}
             >
               <option value=""></option>
-              <option value="Pittura">Pittura</option>
-              <option value="Musica">Musica</option>
-              <option value="Cinema">Cinema</option>
-              <option value="Letteratura">Letteratura</option>
+              {categoryList.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
 
-            <div className="flex gap-5">
-              <label className="block font-bold">
-                <input className="mr-3" type="checkbox" value="1" />
-                Tag 1
-              </label>
-              <label className="block font-bold">
-                <input className="mr-3" type="checkbox" value="2" />
-                Tag 2
-              </label>
-              <label className="block font-bold">
-                <input className="mr-3" type="checkbox" value="3" />
-                Tag 3
-              </label>
-              <label className="block font-bold">
-                <input className="mr-3" type="checkbox" value="4" />
-                Tag 4
-              </label>
+            <div className="flex flex-col gap-1">
+              {tagsList.map((tag) => (
+                <label className="block font-bold">
+                  <input className="mr-3" type="checkbox" value={tag.name} />
+                  {tag.name}
+                </label>
+              ))}
             </div>
 
             <label className="font-bold" htmlFor="published">
