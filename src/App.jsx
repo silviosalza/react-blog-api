@@ -8,16 +8,13 @@ function App() {
     published: false,
     category: "",
   };
-
-  const [articles, setArticles] = useState([]);
-  //setto stato iniziale del mio input
-  // const [title, setTitle] = useState("");
-  const [formData, setFormData] = useState(initialFormData);
-  const [editingId, setEditingId] = useState("");
-  //variabile che popolo con la chiamata API
   const [postsList, setPostsList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [editingId, setEditingId] = useState("");
+  //variabile che popolo con la chiamata API
   let initiated = false;
 
   // function updateFormData(newValue, fieldName) {
@@ -85,7 +82,7 @@ function App() {
     ).json();
     setCategoryList(categoryData);
     const tagsData = await (await fetch("http://localhost:3000/tags")).json();
-    setTagsList(categoryData);
+    setTagsList(tagsData);
   }
   //all'avvio dell'applicazione fetchiamo i dati
   useEffect(() => {
