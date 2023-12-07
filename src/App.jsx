@@ -34,42 +34,39 @@ function App() {
   }
   function handleFormSubmit(e) {
     e.preventDefault(); //evita refresh pagina
-    const newArticles = [...articles];
+    const newPosts = [...postsList];
     if (!editingId) {
       //non posso modificare uno state, eseguo clonazione e aggionarmento (forma compatta)
-      setArticles([...articles, { ...formData, id: crypto.randomUUID() }]);
+      setPostsList([...postsList, { ...formData, id: crypto.randomUUID() }]);
     } else {
-      const articleToEditIndex = newArticles.findIndex(
-        (article) => article.id === editingId
+      const articleToEditIndex = newPosts.findIndex(
+        (post) => post.id === editingId
       );
-      newArticles[articleToEditIndex] = {
-        ...articles[articleToEditIndex],
+      newPosts[articleToEditIndex] = {
+        ...postsList[articleToEditIndex],
         ...formData,
         updatedAt: new Date(),
       };
-      setArticles(newArticles);
+      setPostsList(newPosts);
       setEditingId("");
     }
 
     //resetto form
     setFormData(initialFormData);
   }
-  function deleteArticle(idToRemove) {
-    const newArticles = [...articles];
-    setArticles(newArticles.filter((article) => article.id !== idToRemove));
+  function deletePost(idToRemove) {
+    const newPosts = [...postsList];
+    setPostsList(newPosts.filter((post) => post.id !== idToRemove));
   }
-  function editArticle(idToEdit) {
-    const newArticles = [...articles];
-    const articleToEdit = newArticles.find(
-      (article) => article.id === idToEdit
-    );
-    console.log(articleToEdit);
+  function editPost(idToEdit) {
+    const newPosts = [...postsList];
+    const postToEdit = newPosts.find((post) => post.id === idToEdit);
     setEditingId(idToEdit);
     setFormData({
-      title: articleToEdit.title,
-      content: articleToEdit.content,
-      image: articleToEdit.image,
-      category: articleToEdit.category,
+      title: postToEdit.title,
+      content: postToEdit.content,
+      image: postToEdit.image,
+      category: postToEdit.category,
     });
   }
   function handleField(e) {
@@ -218,21 +215,29 @@ function App() {
                       Categoria: {post.category.name}
                     </h5>
                   }
-                  <img className="w-40 mb-2" src={post.image} alt="" />
+                  <img
+                    className="w-40 mb-2"
+                    src={
+                      post.image
+                        ? post.image
+                        : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                    }
+                    alt=""
+                  />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
                   <span className="max-w-full text-center">{post.content}</span>
                 </div>
                 <div className="mt-4 flex flex-col items-end">
                   <button
                     className="w-20 disabled font-bold border-2 hover:bg-red-700 hover:text-white border-red-700 disabled:border-black disabled:bg-slate-400 mb-2"
-                    onClick={() => deleteArticle(post.id)}
+                    onClick={() => deletePost(post.id)}
                     disabled={!!editingId}
                   >
                     Elimina
                   </button>
                   <button
                     className="w-20 font-bold border-2 hover:bg-yellow-400 hover:text-white border-yellow-400"
-                    onClick={() => editArticle(post.id)}
+                    onClick={() => editPost(post.id)}
                   >
                     Modifica
                   </button>
