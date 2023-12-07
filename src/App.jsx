@@ -4,7 +4,7 @@ function App() {
   const initialFormData = {
     title: "",
     content: "",
-    img: "",
+    image: "",
     published: false,
     category: "",
   };
@@ -64,21 +64,21 @@ function App() {
     setFormData({
       title: articleToEdit.title,
       content: articleToEdit.content,
-      img: articleToEdit.img,
+      image: articleToEdit.image,
       category: articleToEdit.category,
     });
   }
-  function getCategoryText(value) {
-    if (value === 1) {
-      return "Pittura";
-    } else if (value === 2) {
-      return "Musica";
-    } else if (value === 3) {
-      return "Cinema";
-    } else if (value === 2) {
-      return "Letteratura";
-    }
-  }
+  // function getCategoryText(value) {
+  //   if (value === 1) {
+  //     return "Pittura";
+  //   } else if (value === 2) {
+  //     return "Musica";
+  //   } else if (value === 3) {
+  //     return "Cinema";
+  //   } else if (value === 4) {
+  //     return "Letteratura";
+  //   }
+  // }
 
   function handleField(e) {
     const valueField =
@@ -118,13 +118,13 @@ function App() {
               value={formData.content}
               onChange={handleField}
             ></textarea>
-            <label htmlFor="article_img"></label>
+            <label htmlFor="article_image"></label>
             <input
               className="rounded border-2 border-black"
               type="text"
-              name="img"
+              name="image"
               placeholder="Inserisci URL dell'immagine copertina"
-              value={formData.img}
+              value={formData.image}
               onChange={handleField}
             />
             <label className="font-bold" htmlFor="category">
@@ -212,7 +212,7 @@ function App() {
                     </span>
                   </h5>
                   {<h5 className="font-bold">Categoria: {article.category}</h5>}
-                  <img className="w-40 mb-2" src={article.img} alt="" />
+                  <img className="w-40 mb-2" src={article.image} alt="" />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
                   <span className="max-w-full text-center">
                     {article.content}
