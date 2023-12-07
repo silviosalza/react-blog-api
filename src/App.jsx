@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const initialFormData = {
@@ -10,11 +10,13 @@ function App() {
   };
 
   const [articles, setArticles] = useState([]);
-
   //setto stato iniziale del mio input
   // const [title, setTitle] = useState("");
   const [formData, setFormData] = useState(initialFormData);
   const [editingId, setEditingId] = useState("");
+  //variabile che popolo con la chiamata API
+  const [postsList, setPostsList] = useState([]);
+  let initiated = false;
 
   // function updateFormData(newValue, fieldName) {
   //   //clono oggetto usando spred, per eliminare qualsiasi riferimento allo stato attuale
@@ -68,18 +70,6 @@ function App() {
       category: articleToEdit.category,
     });
   }
-  // function getCategoryText(value) {
-  //   if (value === 1) {
-  //     return "Pittura";
-  //   } else if (value === 2) {
-  //     return "Musica";
-  //   } else if (value === 3) {
-  //     return "Cinema";
-  //   } else if (value === 4) {
-  //     return "Letteratura";
-  //   }
-  // }
-
   function handleField(e) {
     const valueField =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -87,6 +77,19 @@ function App() {
     setFormData((current) => ({ ...current, [e.target.name]: valueField }));
   }
 
+  //gestisco chiamata API
+  async function fetchData() {
+    const data = await (await fetch("http://localhost:3000/posts")).json();
+    setPostsList(data);
+  }
+  //all'avvio dell'applicazione fetchiamo i dati
+  useEffect(() => {
+    if (initiated) {
+      return;
+    }
+    fetchData();
+    initiated = true;
+  }, []);
   return (
     <>
       <main className="py-5 ">
@@ -189,7 +192,7 @@ function App() {
         {/*------------------------------------------------------------------- */}
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
-            {articles.map((article) => (
+            {postsList.map((article) => (
               <li
                 key={article.id}
                 className="flex-wrap mb-4 p-4 border border-gray-300 flex items-center"
@@ -211,7 +214,11 @@ function App() {
                       &#x2022;
                     </span>
                   </h5>
-                  {<h5 className="font-bold">Categoria: {article.category}</h5>}
+                  {
+                    <h5 className="font-bold">
+                      Categoria: {article.category.name}
+                    </h5>
+                  }
                   <img className="w-40 mb-2" src={article.image} alt="" />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
                   <span className="max-w-full text-center">
