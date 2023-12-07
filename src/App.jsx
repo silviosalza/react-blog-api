@@ -157,16 +157,16 @@ function App() {
 
             <div className="flex flex-col gap-1">
               {tagsList.map((tag) => (
-                <label className="block font-bold">
+                <label key={tag.id} className="block font-bold">
                   <input className="mr-3" type="checkbox" value={tag.name} />
                   {tag.name}
                 </label>
               ))}
             </div>
 
-            <label className="font-bold" htmlFor="published">
+            <span className="font-bold" htmlFor="published">
               Pubblicato
-            </label>
+            </span>
             <input
               name="published"
               type="checkbox"
@@ -191,23 +191,23 @@ function App() {
         {/*------------------------------------------------------------------- */}
         <div className="my-5 container mx-auto border-2 border-black">
           <ul>
-            {postsList.map((article) => (
+            {postsList.map((post) => (
               <li
-                key={article.id}
+                key={post.id}
                 className="flex-wrap mb-4 p-4 border border-gray-300 flex items-center"
               >
                 <div className="flex flex-col">
                   <h5 className="font-bold mb-2">
-                    Titolo: {article.title} -{" "}
-                    <span className={article.published ? "" : "hidden"}>
+                    Titolo: {post.title} -{" "}
+                    <span className={post.published ? "" : "hidden"}>
                       Pubblicato{" "}
                     </span>
-                    <span className={article.published ? "hidden" : ""}>
+                    <span className={post.published ? "hidden" : ""}>
                       Non Pubblicato{" "}
                     </span>
                     <span
                       className={`text-xl ${
-                        article.published ? "text-green-500" : "text-red-500"
+                        post.published ? "text-green-500" : "text-red-500"
                       }`}
                     >
                       &#x2022;
@@ -215,26 +215,24 @@ function App() {
                   </h5>
                   {
                     <h5 className="font-bold">
-                      Categoria: {article.category.name}
+                      Categoria: {post.category.name}
                     </h5>
                   }
-                  <img className="w-40 mb-2" src={article.image} alt="" />
+                  <img className="w-40 mb-2" src={post.image} alt="" />
                   <h5 className="font-bold mb-2">Contenuto:</h5>
-                  <span className="max-w-full text-center">
-                    {article.content}
-                  </span>
+                  <span className="max-w-full text-center">{post.content}</span>
                 </div>
                 <div className="mt-4 flex flex-col items-end">
                   <button
                     className="w-20 disabled font-bold border-2 hover:bg-red-700 hover:text-white border-red-700 disabled:border-black disabled:bg-slate-400 mb-2"
-                    onClick={() => deleteArticle(article.id)}
+                    onClick={() => deleteArticle(post.id)}
                     disabled={!!editingId}
                   >
                     Elimina
                   </button>
                   <button
                     className="w-20 font-bold border-2 hover:bg-yellow-400 hover:text-white border-yellow-400"
-                    onClick={() => editArticle(article.id)}
+                    onClick={() => editArticle(post.id)}
                   >
                     Modifica
                   </button>
